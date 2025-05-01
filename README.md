@@ -3,7 +3,7 @@
   <img src="https://img.shields.io/badge/License-MIT-yellow.svg">
 </p>
 
-# 🛡️ env-checker-cli
+# 🛡️ env-verifier-cli
 
 A lightweight and powerful CLI tool to validate your `.env` files against a defined schema.
 Very easy to configure with minimal setup.
