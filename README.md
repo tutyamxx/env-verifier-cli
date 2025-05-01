@@ -86,3 +86,4 @@ PORT=3000
 - **boolean** → `true`, `false`
 - **array** → `["https://myapp.com", "https://admin.myapp.com"]`, `["feature1", "feature2", "feature3"]`
 - **JSON (object)** → `{"theme": "dark", "notifications": true}`, `{"maxRetries": 3, "timeout": 5000}`
+- **date** → `2025-01-01`, `2023-05-01T15:30:00Z`
