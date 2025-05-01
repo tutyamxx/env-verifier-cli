@@ -28,12 +28,12 @@ Validate `.env` files for:
 Global:
 
 ```bash
-npm install -g env-checker-cli
+npm install -g env-verifier-cli
 ```
 
 Local (as dev dependency):
 ```bash
-npm install --save-dev env-checker-cli
+npm install --save-dev env-verifier-cli
 ```
 
 # 👨‍💻 Usage
