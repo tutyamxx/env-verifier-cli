@@ -1,5 +1,12 @@
 #!/usr/bin/env node
 
+/**
+ *  env-verifier-cli - 🛡️ A command-line tool to validate .env files against a defined schema to ensure correct environment variable configurations.
+ *  @version: v1.0.1
+ *  @link: https://github.com/tutyamxx/env-verifier-cli
+ *  @license: MIT
+ **/
+
 /* eslint-disable no-console */
 /* eslint-disable no-undef */
 
