@@ -9,7 +9,7 @@ A lightweight and powerful CLI tool to validate your `.env` files against a defi
 Very easy to configure with minimal setup.
 
 <div align="center">
-    <img src="./cli_sample.png" alt="CLI Terminal Sample Image" />
+    <img src="https://raw.githubusercontent.com/tutyamxx/env-verifier-cli/refs/heads/main/cli_sample.png" alt="CLI Terminal Sample Image" />
 </div>
 
 # 🚀 Features
