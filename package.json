@@ -1,14 +1,19 @@
 {
   "name": "env-verifier-cli",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "bin": {
     "env-verifier": "./bin/index.js"
   },
   "scripts": {
     "test": "jest --verbose"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "env-verifier-cli",
+    "env-cli-validate",
+    "env-validate",
+    "env-checker"
+  ],
+  "author": "tuty",
   "license": "ISC",
   "type": "commonjs",
   "description": "🛡️ A command-line tool to validate .env files against a defined schema to ensure correct environment variable configurations.",
