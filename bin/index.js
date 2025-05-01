@@ -2,7 +2,7 @@
 
 /**
  *  env-verifier-cli - 🛡️ A command-line tool to validate .env files against a defined schema to ensure correct environment variable configurations.
- *  @version: v1.0.3
+ *  @version: v1.0.4
  *  @link: https://github.com/tutyamxx/env-verifier-cli
  *  @license: MIT
  **/
@@ -20,8 +20,7 @@ const validateEnvFile = require('../lib/validateEnvFile');
 
 const program = new Command();
 
-program
-    .version('1.0.0')
+program.version('1.0.0')
     .description('Validate your .env file against a schema')
     .option('--env <path>', 'Path to .env file (default: .env)', '.env')
     .option('--schema <path>', 'Path to schema file (default: ./env.schema.json)', './env.schema.json')
