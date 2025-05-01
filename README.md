@@ -17,7 +17,7 @@ Very easy to configure with minimal setup.
 Validate `.env` files for:
   - ❗ Missing or invalid required keys
   - ⚠️ Unused keys not defined in your schema
-  - 🧪 Type checking: string, number, boolean, array, JSON (object)
+  - 🧪 Type checking: `string`, `number`, `boolean`, `array`, `JSON (object)`, [Date](https://date-fns.org/docs/Getting-Started/)
   - 🧩 Support for optional keys, allowing flexible configurations
   - 🔁 Works with multiple `.env` files (e.g., `.env.production`, `.env.staging`, `.env.test`) and supports type-specific validation for each
   - 🛠️ Customizable schema for defining required and optional keys with specific types (string, number, boolean, array, JSON)
@@ -48,6 +48,11 @@ Or
 env-checker --env .env.staging --schema env.schema.json
 ```
 
+Or for different folder paths
+
+```bash
+env-verifier --env %USERPROFILE%\Downloads\.env --schema %USERPROFILE%\Downloads\env.schema.json
+```
 
 ## Options:
 
@@ -87,3 +92,7 @@ PORT=3000
 - **array** → `["https://myapp.com", "https://admin.myapp.com"]`, `["feature1", "feature2", "feature3"]`
 - **JSON (object)** → `{"theme": "dark", "notifications": true}`, `{"maxRetries": 3, "timeout": 5000}`
 - **date** → `2025-01-01`, `2023-05-01T15:30:00Z`
+
+# FAQ
+
+🔐 Don't worry, the `.env` files provided in this repository contain dummy data only.

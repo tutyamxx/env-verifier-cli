@@ -1,6 +1,6 @@
 {
   "name": "env-verifier-cli",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "bin": {
     "env-verifier": "./bin/index.js"
   },
