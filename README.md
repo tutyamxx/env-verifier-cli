@@ -39,13 +39,13 @@ npm install --save-dev env-verifier-cli
 # 👨‍💻 Usage
 
 ```bash
-env-checker --env .env --schema env.schema.json
+env-verifier --env .env --schema env.schema.json
 ```
 
 Or
 
 ```bash
-env-checker --env .env.staging --schema env.schema.json
+env-verifier --env .env.staging --schema env.schema.json
 ```
 
 Or for different folder paths

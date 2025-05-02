@@ -2,7 +2,7 @@
 
 /**
  *  env-verifier-cli - 🛡️ A command-line tool to validate .env files against a defined schema to ensure correct environment variable configurations.
- *  @version: v1.0.8
+ *  @version: v1.0.9
  *  @link: https://github.com/tutyamxx/env-verifier-cli
  *  @license: MIT
  **/
@@ -67,6 +67,7 @@ if (warnings.length) {
 
 if (shouldCLIExit && exitOnIssues) {
     console.log(chalk.red('\n🚨 Validation failed. Exitting...'));
+
     process.exit(1);
 } else if (!shouldCLIExit) {
     const envFileName = path.basename(envFilePath);
