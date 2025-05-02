@@ -51,16 +51,17 @@ env-checker --env .env.staging --schema env.schema.json
 Or for different folder paths
 
 ```bash
-env-verifier --env %USERPROFILE%\Downloads\.env --schema %USERPROFILE%\Downloads\env.schema.json
-env-verifier --env $HOME/Downloads/.env --schema $HOME/Downloads/env.schema.json
-env-verifier --env ~/Downloads/.env --schema ~/Downloads/env.schema.json
+env-verifier --env %USERPROFILE%\Downloads\.env --schema %USERPROFILE%\Downloads\env.schema.json --exit true
+env-verifier --env $HOME/Downloads/.env --schema $HOME/Downloads/env.schema.json --exit 1
+env-verifier --env ~/Downloads/.env --schema ~/Downloads/env.schema.json --exit false
 ```
 
 ## Options:
 
 ```bash
---env     Path to the .env file to validate        (default: .env)
---schema  Path to the schema JSON file             (default: env.schema.json)
+--env     Path to the .env file to validate                                               (default: .env)
+--schema  Path to the schema JSON file                                                    (default: env.schema.json)
+--exit    Set true, 'true' or 1 if you want to throw on invalids or warnings              (default: true)
 ```
 
 # 📂 Example (for more details see `env.schema.json`)

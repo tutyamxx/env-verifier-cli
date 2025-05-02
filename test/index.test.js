@@ -99,7 +99,7 @@ describe('💻 CLI: Testing', () => {
     afterAll(() => fs.rmSync(TEMP_DIR, { recursive: true, force: true }));
 
     test('Should pass with valid env file', () => {
-        const result = spawnSync('node', [CLI_PATH, '--env', envPath, '--schema', schemaPath], {
+        const result = spawnSync('node', [CLI_PATH, '--env', envPath, '--schema', schemaPath, '--exit', 'false'], {
             encoding: 'utf-8'
         });
 
@@ -109,7 +109,7 @@ describe('💻 CLI: Testing', () => {
     });
 
     test('Should fail when .env file is missing', () => {
-        const result = spawnSync('node', [CLI_PATH, '--env', 'missing.env', '--schema', schemaPath], {
+        const result = spawnSync('node', [CLI_PATH, '--env', 'missing.env', '--schema', schemaPath, '--exit', 'false'], {
             encoding: 'utf-8'
         });
 
@@ -118,7 +118,7 @@ describe('💻 CLI: Testing', () => {
     });
 
     test('Should fail when schema file is missing', () => {
-        const result = spawnSync('node', [CLI_PATH, '--env', envPath, '--schema', 'missing.schema.json'], {
+        const result = spawnSync('node', [CLI_PATH, '--env', envPath, '--schema', 'missing.schema.json', '--exit', 'false'], {
             encoding: 'utf-8'
         });
 
@@ -130,7 +130,7 @@ describe('💻 CLI: Testing', () => {
         const extendedEnv = `${mockEnv}\nEXTRA_KEY=unexpected\n`;
         fs.writeFileSync(envPath, extendedEnv);
 
-        const result = spawnSync('node', [CLI_PATH, '--env', envPath, '--schema', schemaPath], {
+        const result = spawnSync('node', [CLI_PATH, '--env', envPath, '--schema', schemaPath, '--exit', 'false'], {
             encoding: 'utf-8'
         });
 
@@ -143,7 +143,7 @@ describe('💻 CLI: Testing', () => {
         const brokenEnv = mockEnv.replace(/API_KEY=.*/, '');
         fs.writeFileSync(envPath, brokenEnv);
 
-        const result = spawnSync('node', [CLI_PATH, '--env', envPath, '--schema', schemaPath], {
+        const result = spawnSync('node', [CLI_PATH, '--env', envPath, '--schema', schemaPath, '--exit', 'false'], {
             encoding: 'utf-8'
         });
 
@@ -156,7 +156,7 @@ describe('💻 CLI: Testing', () => {
         const brokenEnv = mockEnv.replace(/DEBUG_MODE=true/, 'DEBUG_MODE=notabool');
         fs.writeFileSync(envPath, brokenEnv);
 
-        const result = spawnSync('node', [CLI_PATH, '--env', envPath, '--schema', schemaPath], {
+        const result = spawnSync('node', [CLI_PATH, '--env', envPath, '--schema', schemaPath, '--exit', 'false'], {
             encoding: 'utf-8'
         });
 
@@ -169,8 +169,8 @@ describe('💻 CLI: Testing', () => {
         const brokenEnv = mockEnv.replace(/SMTP_PORT=587/, 'SMTP_PORT=notanumber');
         fs.writeFileSync(envPath, brokenEnv);
 
-        const result = spawnSync('node', [CLI_PATH, '--env', envPath, '--schema', schemaPath], {
-          encoding: 'utf-8'
+        const result = spawnSync('node', [CLI_PATH, '--env', envPath, '--schema', schemaPath, '--exit', 'false'], {
+            encoding: 'utf-8'
         });
 
         expect(result.status).toBe(0);
@@ -182,7 +182,7 @@ describe('💻 CLI: Testing', () => {
         const brokenEnv = mockEnv.replace(/ALLOWED_ORIGINS=\["\*\"]/g, 'ALLOWED_ORIGINS="not-an-array"');
         fs.writeFileSync(envPath, brokenEnv);
 
-        const result = spawnSync('node', [CLI_PATH, '--env', envPath, '--schema', schemaPath], {
+        const result = spawnSync('node', [CLI_PATH, '--env', envPath, '--schema', schemaPath, '--exit', 'false'], {
             encoding: 'utf-8'
         });
 
@@ -195,7 +195,7 @@ describe('💻 CLI: Testing', () => {
         const brokenEnv = mockEnv.replace(/START_DATE=2025-01-01/g, 'START_DATE=not-a-date');
         fs.writeFileSync(envPath, brokenEnv);
 
-        const result = spawnSync('node', [CLI_PATH, '--env', envPath, '--schema', schemaPath], {
+        const result = spawnSync('node', [CLI_PATH, '--env', envPath, '--schema', schemaPath, '--exit', 'false'], {
             encoding: 'utf-8'
         });
 
@@ -208,12 +208,65 @@ describe('💻 CLI: Testing', () => {
         const brokenEnv = mockEnv.replace(/USER_PREFERENCES=\{"theme":"dark"\}/g, 'USER_PREFERENCES="not-a-json"');
         fs.writeFileSync(envPath, brokenEnv);
 
-        const result = spawnSync('node', [CLI_PATH, '--env', envPath, '--schema', schemaPath], {
+        const result = spawnSync('node', [CLI_PATH, '--env', envPath, '--schema', schemaPath, '--exit', 'false'], {
             encoding: 'utf-8'
         });
 
         expect(result.status).toBe(0);
         expect(result.stdout).toMatch(/⚠️ Warnings:/);
         expect(result.stdout).toMatch(/⚠️ USER_PREFERENCES type mismatch \(expected json\)/);
+    });
+
+    test('Should exit with status 1 on error when --exit true', () => {
+        const brokenEnv = mockEnv.replace(/API_KEY=.*/, '');
+        fs.writeFileSync(envPath, brokenEnv);
+
+        const result = spawnSync('node', [CLI_PATH, '--env', envPath, '--schema', schemaPath, '--exit', 'true'], {
+            encoding: 'utf-8'
+        });
+
+        expect(result.status).toBe(1);
+        expect(result.stdout).toMatch(/🚨 Missing or invalid keys:/);
+        expect(result.stdout).toMatch(/🚨 Validation failed\. Exitting/);
+    });
+
+    test('Should not exit with status 1 on error when --exit false', () => {
+        const brokenEnv = mockEnv.replace(/API_KEY=.*/, '');
+        fs.writeFileSync(envPath, brokenEnv);
+
+        const result = spawnSync('node', [CLI_PATH, '--env', envPath, '--schema', schemaPath, '--exit', 'false'], {
+            encoding: 'utf-8'
+        });
+
+        expect(result.status).toBe(0);
+        expect(result.stdout).toMatch(/🚨 Missing or invalid keys:/);
+        expect(result.stdout).not.toMatch(/Validation failed\. Exitting/);
+    });
+
+    test('Should exit with status 1 on warning when --exit 1', () => {
+        const extendedEnv = `${mockEnv}\nEXTRA_KEY=unexpected\n`;
+        fs.writeFileSync(envPath, extendedEnv);
+
+        const result = spawnSync('node', [CLI_PATH, '--env', envPath, '--schema', schemaPath, '--exit', '1'], {
+            encoding: 'utf-8'
+        });
+
+        expect(result.status).toBe(1);
+        expect(result.stdout).toMatch(/⚠️ Warnings:/);
+        expect(result.stdout).toMatch(/EXTRA_KEY/);
+        expect(result.stdout).toMatch(/Validation failed\. Exitting/);
+    });
+
+    test('Should not exit with status 1 on warning when --exit 0', () => {
+        const extendedEnv = `${mockEnv}\nEXTRA_KEY=unexpected\n`;
+        fs.writeFileSync(envPath, extendedEnv);
+
+        const result = spawnSync('node', [CLI_PATH, '--env', envPath, '--schema', schemaPath, '--exit', '0'], {
+            encoding: 'utf-8'
+        });
+
+        expect(result.status).toBe(0);
+        expect(result.stdout).toMatch(/⚠️ Warnings:/);
+        expect(result.stdout).not.toMatch(/Validation failed\. Exitting/);
     });
 });
