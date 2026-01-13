@@ -1,6 +1,6 @@
 {
   "name": "env-verifier-cli",
-  "version": "1.0.9",
+  "version": "1.1.0",
   "bin": {
     "env-verifier": "./bin/index.js"
   },
@@ -19,12 +19,12 @@
   "description": "🛡️ A command-line tool to validate .env files against a defined schema to ensure correct environment variable configurations.",
   "dependencies": {
     "chalk": "^4.1.2",
-    "commander": "^13.1.0",
+    "commander": "^14.0.2",
     "date-fns": "^4.1.0",
-    "dotenv": "^16.5.0",
+    "dotenv": "^17.2.3",
     "dotenv-expand": "^12.0.2"
   },
   "devDependencies": {
-    "jest": "^29.7.0"
+    "jest": "^30.2.0"
   }
 }
