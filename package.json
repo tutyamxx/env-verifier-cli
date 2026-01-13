@@ -1,6 +1,6 @@
 {
   "name": "env-verifier-cli",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "bin": {
     "env-verifier": "./bin/index.js"
   },
@@ -13,6 +13,10 @@
     "env-validate",
     "env-checker"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tutyamxx/env-verifier-cli"
+  },
   "author": "tuty",
   "license": "ISC",
   "type": "commonjs",
