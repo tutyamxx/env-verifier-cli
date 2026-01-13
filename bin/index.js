@@ -2,7 +2,7 @@
 
 /**
  *  env-verifier-cli - 🛡️ A command-line tool to validate .env files against a defined schema to ensure correct environment variable configurations.
- *  @version: v1.1.0
+ *  @version: v1.1.1
  *  @link: https://github.com/tutyamxx/env-verifier-cli
  *  @license: MIT
  **/
