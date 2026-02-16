@@ -2,37 +2,33 @@
 
 /**
  *  env-verifier-cli - 🛡️ A command-line tool to validate .env files against a defined schema to ensure correct environment variable configurations.
- *  @version: v1.1.3
+ *  @version: v1.1.4
  *  @link: https://github.com/tutyamxx/env-verifier-cli
  *  @license: MIT
  **/
-
-/* eslint-disable no-console */
-/* eslint-disable no-undef */
-
 const { Command } = require('commander');
 const path = require('path');
 const fs = require('fs');
 const chalk = require('chalk');
-const cliVersion = require('../package.json').version;
+const cliVersion = require('../package.json')?.version ?? '0.0.0';
 
 const loadEnvFile = require('../lib/loadEnvFile');
 const validateEnvFile = require('../lib/validateEnvFile');
 
 const program = new Command();
 
-program.version(cliVersion?.trim())
+program.version(cliVersion?.trim() ?? '0.0.0')
     .description('Validate your .env file against a schema')
     .option('--env <path>', 'Path to .env file (default: .env)', '.env')
     .option('--schema <path>', 'Path to schema file (default: ./env.schema.json)', './env.schema.json')
     .option('--exit <boolean>', 'Set true or 1 if you want to throw on invalids or warnings', 'true')
     .parse(process.argv);
 
-const options = program.opts();
+const options = program.opts() ?? {};
 
-const envFilePath = path.resolve(process.cwd(), options.env);
-const schemaFilePath = path.resolve(process.cwd(), options.schema);
-const exitOnIssues = options.exit === 'true' || options.exit === '1';
+const envFilePath = path.resolve(process.cwd(), options?.env ?? '.env');
+const schemaFilePath = path.resolve(process.cwd(), options?.schema ?? './env.schema.json');
+const exitOnIssues = (options?.exit ?? 'true') === 'true' || (options?.exit ?? 'true') === '1';
 
 if (!fs.existsSync(envFilePath)) {
     console.error(chalk.red(`❌ .env file not found at ${envFilePath}`));
@@ -46,31 +42,29 @@ if (!fs.existsSync(schemaFilePath)) {
 
 console.log(chalk.blue('⚙️ Validating .env file...'));
 
-const envConfig = loadEnvFile(envFilePath);
+const envConfig = loadEnvFile(envFilePath) ?? {};
 let shouldCLIExit = false;
 
-const { errors = [], warnings = [] } = validateEnvFile(envConfig, JSON.parse(fs.readFileSync(schemaFilePath, 'utf-8'))) ?? {};
+const { errors = [], warnings = [] } = validateEnvFile(envConfig, JSON.parse(fs.readFileSync(schemaFilePath, 'utf-8')) ?? {}) ?? {};
 
-if (errors.length) {
+if ((errors?.length ?? 0) > 0) {
     console.log(chalk.red('\n🚨 Missing or invalid keys:'));
-    errors.forEach(error => console.log(`  ❌ ${error}`));
+    errors?.forEach(error => console.log(`  ❌ ${error}`));
 
     shouldCLIExit = true;
 }
 
-if (warnings.length) {
+if ((warnings?.length ?? 0) > 0) {
     console.log(chalk.yellow('\n⚠️ Warnings:'));
-    warnings.forEach(warning => console.log(`  ⚠️ ${warning}`));
+    warnings?.forEach(warning => console.log(`  ⚠️ ${warning}`));
 
     shouldCLIExit = true;
 }
 
 if (shouldCLIExit && exitOnIssues) {
     console.log(chalk.red('\n🚨 Validation failed. Exitting...'));
-
     process.exit(1);
 } else if (!shouldCLIExit) {
-    const envFileName = path.basename(envFilePath);
-
+    const envFileName = path.basename(envFilePath ?? '');
     console.log(chalk.green(`\n✅ ${envFileName} file passed validation.`));
 }
